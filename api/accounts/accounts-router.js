@@ -1,5 +1,8 @@
 const router = require('express').Router()
 const Account = require('./accounts-model')
+const {
+  checkAccountId
+} = require('./accounts-middleware')
 
 router.get('/', (req, res, next) => {
   Account.getAll(req.params.id)
@@ -9,8 +12,8 @@ router.get('/', (req, res, next) => {
     .catch(next)
 })
 
-router.get('/:id', (req, res, next) => {
-  // DO YOUR MAGIC
+router.get('/:id', checkAccountId, (req, res, next) => {
+  res.status(200).json(req.accountFromDb)
 })
 
 router.post('/', (req, res, next) => {
